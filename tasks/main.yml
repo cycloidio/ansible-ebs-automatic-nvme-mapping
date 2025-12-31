@@ -33,11 +33,10 @@
       changed_when: False
       when: nvme_mapping_run|bool
 
-  when: not(nvme_exist.stdout | regex_search('No NVMe devices detected.'))
+  when: "'No NVMe devices detected.' not in nvme_exist.stdout"
 
 - name: remove nvme tool
   apt:
     name: nvme-cli
     state: absent
-  when: nvme_exist.stdout | regex_search('No NVMe devices detected.')
-
+  when: "'No NVMe devices detected.' in nvme_exist.stdout"
